@@ -1,16 +1,20 @@
 let ratio = 16 / 9;
 let wU;
 let hU;
-
+let cnv;
 function setup() {
     if (windowHeight * ratio > windowWidth) {
-        createCanvas(windowWidth, windowWidth / ratio);
+        cnv = createCanvas(windowWidth, windowWidth / ratio);
     } else {
-        createCanvas(windowHeight * ratio, windowHeight);
+        cnv = createCanvas(windowHeight * ratio, windowHeight);
     }
 
     wU = width / 16;
     hU = height / 9;
+
+    let x = (windowWidth - width) / 2;
+    let y = (windowHeight - height) / 2;
+    cnv.position(x, y);
 }
 
 function draw() {
