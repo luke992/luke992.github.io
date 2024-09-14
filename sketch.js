@@ -9,10 +9,24 @@ let buttons;
 let delButton;
 let submitButton;
 
+let instructions;
+
 function setup() {
+
+    cursorOn = false;
+    cursorChar = "_"; //‸▮▋ ▊ ｜
+
+    setInterval(function(){
+        if (!cursorOn)
+            addSymbolForce(cursorChar);
+        else
+            deleteSymbolForce()
+        cursorOn = !cursorOn;
+    }, 600);
 
     shiftHeld = false;
     justShifted = false;
+    justNumbererd = false;
 
     if (windowHeight * ratio > windowWidth) {
         cnv = createCanvas(windowWidth, windowWidth / ratio);
@@ -35,6 +49,18 @@ function setup() {
     taskP.position(wU / 2 + cnvX, 2 * hU + cnvY);
     taskP.size(5 * wU - 20, 6 * hU - 20);
     taskP.style("font-size:" + (1.4 * hU) / 3 + "px;");
+    taskP.addClass("taskP");
+
+    instructions = document.createElement("ol");
+    instructions.style.fontSize = (1.4 * hU) / 4 + "px";
+    taskP.child(instructions);
+
+    addInstruction("Hello abc bac basud iausd iasd iasud ");
+    addInstruction("Hack@CMU ■");
+    addInstruction("ababab");
+    addInstruction(
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    );
 
     codeP = createP("▲■●★➤⧫");
     codeP.position(6.5 * wU + cnvX, 1.25 * hU + cnvY);
@@ -42,10 +68,11 @@ function setup() {
     codeP.style("font-size:" + (1.4 * hU) / 3 + "px;");
     codeP.addClass("codeP");
 
-    responseP = createP("SDFGHJKDFGHJKUQ EYVKIQEVFKUQE BFILQEUBF");
+    responseP = createP("");
     responseP.position(6.5 * wU + cnvX, 3.75 * hU + cnvY);
     responseP.size(5 * wU - 20, 5 * hU - 20);
     responseP.style("font-size:" + (1.4 * hU) / 3 + "px;");
+    responseP.addClass("responseP");
 
     buttonSetup();
 }
@@ -54,7 +81,7 @@ function draw() {
     background(255);
 
     stroke(0);
-    strokeWeight(hU / 9);
+    strokeWeight(hU / 15);
     fill(255);
 
     // task page
@@ -70,14 +97,10 @@ function draw() {
 
     // symbol buttons
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
         rect(12.5 * wU, 2 * hU + i * 1.25 * hU, 1.25 * hU, 1.25 * hU);
         rect(13.75 * wU, 2 * hU + i * 1.25 * hU, 1.25 * hU, 1.25 * hU);
     }
-
-    // delete button
-    fill(255, 0, 0, 50);
-    rect(12.5 * wU, 5.75 * hU, 2.5 * hU, 1.25 * hU);
 
     // submit button
     fill(0, 255, 0, 50);
@@ -86,6 +109,8 @@ function draw() {
 
 function drawBackground() {
     // light
+    strokeWeight(hU / 9);
+
     push();
     noStroke();
     fill(255, 255, 0, 50);
@@ -104,101 +129,100 @@ function drawBackground() {
 
 function buttonSetup() {
     buttons = [
-        new Button("▲ ", 1),
-        new Button("■ ", 1),
-        new Button("● ", 1),
-        new Button("★ ", 1),
-        new Button("➤ ", 1),
-        new Button("⧫ ", 1),
+        new Button("▲", 1),
+        new Button("■", 1),
+        new Button("●", 1),
+        new Button("★", 1),
+        new Button("➤", 1),
+        new Button("⧫", 1),
+        new Button("⧫", 1),
+        new Button("⧫", 1),
     ];
-
-    delButton = new Button("Delete", 2);
-    delButton.position(12.5 * wU + cnvX, 5.75 * hU + cnvY);
-    delButton.mousePressed(() => {
-        let str = responseP.html();
-        if (str) {
-            var charsToDelete = str[str.length - 1] == " " ? 2 : 1;
-            responseP.html(str.substring(0, str.length - charsToDelete));
-        }
-    });
 
     submitButton = new Button("Submit", 2);
     submitButton.position(12.5 * wU + cnvX, 7 * hU + cnvY);
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 8; i++) {
         buttons[i].position(
             wU * (12.5 + (i % 2) * 1.25) + cnvX,
             hU * (2 + 1.25 * Math.floor(i / 2)) + cnvY
         );
         buttons[i].mousePressed(() => {
-            responseP.html(responseP.html() + buttons[i].getSymbol());
+            addSymbol(buttons[i].getSymbol());
         });
     }
 }
 
-function keyPressed() { 
-    var s = ""+key;
+function addSymbol(symbol) {
+    var str = responseP.html();
+    if (str[str.length - 2] != cursorChar)
+        responseP.html(str + symbol + "&#8203;" + cursorChar + "&#8203;");
+    else 
+        responseP.html(str.substring(0, str.length - 2) + symbol + "&#8203;" + cursorChar + "&#8203;");
+    cursorOn = true;
+}
 
-    console.log(key);
+function addSymbolForce(symbol) {
+    responseP.html(responseP.html() + symbol + "&#8203;");
+}
 
-    if (key == "Backspace") {
-        let str = responseP.html();
-        if (str) {
-            var charsToDelete = str[str.length - 1] == " " ? 2 : 1;
-            responseP.html(str.substring(0, str.length - charsToDelete));
-        }
-    }
-
+function keyPressed() {
+    let keyIndex = -1;
     if (key == "Shift") {
         shiftHeld = true;
+        return;
     }
-
-    if (s.length > 1) return;
-    if (!isAlphaNumeric(s)) return;
-    if (!isLetter(s)) return;
-
-    if (shiftHeld) {
-        justShifted = !justShifted;
-        if (justShifted) return;
+    
+    if ((key >= "a" && key <= "z")) {
+        addSymbol(key);
+        
+    } if (key >= "A" && key <= "Z") {
+        if (shiftHeld) {
+            if (!justShifted)
+                addSymbol(key);
+            justShifted = !justShifted;
+        }
+    } else if ((key >= "0" && key <= "9")) {
+        justNumbererd = !justNumbererd;
+        if (!justNumbererd)
+            addSymbol(key);
+    } else if (key.charCodeAt(0) == 32) {
+        addSymbol(key);
+    } else if (key == "") {
+        deleteSymbol();
+        console.log("Backspace pressed")
+    } else {
+        console.log(key);
     }
+}
 
-    let str = responseP.html();
-    if (!shiftHeld)
-        s = s.toLowerCase();
-
-
-
-    responseP.html(responseP.html() + s);
-    // responseP.html(str.substring(0, str.length - 1));
-  } 
-
-  function keyReleased() {
+function keyReleased() {
     if (key == "Shift") {
         shiftHeld = false;
     }
+}
 
-  }
+function addInstruction(instruction) {
+    var li = document.createElement("li");
+    instructions.appendChild(li);
+    li.innerHTML = instruction;
+}
 
-  function isAlphaNumeric(str) {
-    var code, i, len;
-  
-    for (i = 0, len = str.length; i < len; i++) {
-      code = str.charCodeAt(i);
-      if (!(code > 47 && code < 58) && // numeric (0-9)
-          !(code > 64 && code < 91) && // upper alpha (A-Z)
-          !(code > 96 && code < 123)) { // lower alpha (a-z)
-        return false;
-      }
+function deleteSymbolForce() {
+    let str = responseP.html();
+    if (str !== "") {
+        responseP.html(str.substring(0, str.length - 2));
     }
-    return true;
-  };
+}
 
-  function isLetter(s) {
-    var chars = "QWERTYUIOPASDFGHJKLZXCVBNM";
-    for (var i = 0; i < 26; i++) {
-        if (s == chars[i])
-            return true;
-    }
-    return false;
-  }
+function deleteSymbol() {
+    var str = responseP.html();
+    if (str[str.length - 2] != cursorChar)
+        responseP.html(str.substring(0, str.length - 2) + cursorChar + "&#8203;");
+    else 
+        responseP.html(str.substring(0, str.length - 4) + cursorChar + "&#8203;");
+    cursorOn = true;
+    
+}
+
 
