@@ -208,6 +208,7 @@ function buttonSetup() {
     submitButton = new Button("Submit", 2);
     submitButton.position(12.5 * wU + cnvX, 7 * hU + cnvY);
     submitButton.setColor("rgb(0,255,0)");
+    submitButton.mousePressed(submit);
     for (let i = 0; i < 8; i++) {
         buttons[i].position(
             wU * (12.5 + (i % 2) * 1.25) + cnvX,
@@ -298,4 +299,15 @@ function deleteSymbol() {
             str.substring(0, str.length - 4) + cursorChar + "&#8203;"
         );
     cursorOn = true;
+}
+
+function submit() {
+    console.log(prepInputString(responseP.html()));
+}
+
+function prepInputString(s) {
+    var ret = s;
+    ret = ret.replace("&#8203;", "");
+    ret = ret.replace(cursorChar, "");
+    return ret;
 }
