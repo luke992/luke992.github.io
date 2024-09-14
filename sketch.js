@@ -178,13 +178,13 @@ function keyPressed() {
         
     } if (key >= "A" && key <= "Z") {
         if (shiftHeld) {
-            if (!justShifted)
+            // if (!justShifted)
                 addSymbol(key);
-            justShifted = !justShifted;
+            // justShifted = !justShifted;
         }
     } else if ((key >= "0" && key <= "9")) {
-        justNumbererd = !justNumbererd;
-        if (!justNumbererd)
+        // justNumbererd = !justNumbererd;
+        // if (!justNumbererd)
             addSymbol(key);
     } else if (key.charCodeAt(0) == 32) {
         addSymbol(key);
