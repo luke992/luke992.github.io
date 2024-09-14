@@ -10,6 +10,7 @@ let delButton;
 let submitButton;
 
 let instructions;
+let iTitle;
 
 function setup() {
     cursorOn = false;
@@ -42,7 +43,11 @@ function setup() {
     cnvY = (windowHeight - height) / 2;
     cnv.position(cnvX, cnvY);
 
-    taskP = createP("Task 1");
+    // iTitle = document.createElement("h4");
+    // iTitle.innerHTML = "Task 1";
+    // taskP.child(iTitle);
+
+    taskP = createP("Task: Respond");
     taskP.position(wU / 2 + cnvX, 2 * hU + cnvY);
     taskP.size(5 * wU - 20, 6 * hU - 20);
     taskP.style("font-size:" + (1.4 * hU) / 3 + "px;");
@@ -52,12 +57,16 @@ function setup() {
     instructions.style.fontSize = (1.4 * hU) / 4 + "px";
     taskP.child(instructions);
 
-    addInstruction("Hello abc bac basud iausd iasd iasud ");
-    addInstruction("Hack@CMU ■");
-    addInstruction("ababab");
-    addInstruction(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    );
+    // iTitle = document.createElement("h4");
+    
+
+    // addInstruction("Hello abc bac basud iausd iasd iasud ");
+    // addInstruction("Hack@CMU ■");
+    // addInstruction("ababab");
+    // addInstruction(
+    //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    // );
+
 
     codeP = createP("▲■●★➤⧫");
     codeP.position(6.5 * wU + cnvX, 1.25 * hU + cnvY);
@@ -72,6 +81,10 @@ function setup() {
     responseP.addClass("responseP");
 
     buttonSetup();
+
+    logicSetup();
+
+    sendMessage(0);
 }
 
 function draw() {
@@ -279,6 +292,8 @@ function addInstruction(instruction) {
     var li = document.createElement("li");
     instructions.appendChild(li);
     li.innerHTML = instruction;
+
+    // taskP.innerHTML = "Task YYYY<ol>" + instructions.innerHTML + "</ol>";
 }
 
 function deleteSymbolForce() {
@@ -303,6 +318,8 @@ function deleteSymbol() {
 
 function submit() {
     console.log(prepInputString(responseP.html()));
+    responseP.html("");
+    incrementLevel();
 }
 
 function prepInputString(s) {
@@ -311,3 +328,5 @@ function prepInputString(s) {
     ret = ret.replace(cursorChar, "");
     return ret;
 }
+
+
