@@ -152,6 +152,6 @@ function addInstruction(instruction) {
 function deleteSymbol() {
     let str = responseP.html();
     if (str !== "") {
-        responseP.html(str.substring(0, str.length - 1));
+        responseP.html(str.substring(0, str.length - 2));
     }
 }
