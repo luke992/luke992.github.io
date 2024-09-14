@@ -1,42 +1,13 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Page Title</title>
-  <meta charset="UTF-8">
-</head>
-<body>
-
-  <h1 id="header">Header</h1>
-  <p>HELLO WORLD</p>
-  <input id="textbox"></input>
-
-  <div>
-  <button id="triangle" onclick="addChar('△')">△</button>
-    <button id="circle" onclick="addChar('◯')">◯</button>
-    <button id="square" onclick="addChar('□')">□</button>
-  </div>
-
-  <script>
-    var textbox = document.getElementById("textbox");
-    
-    //textbox.value = "YEEEEEE";
-
-    function addChar(char) {
-      textbox.value = textbox.value + char;
-    }
-
-    var symbols = {
-      1:
-      2:
-      3:
-    }
-
-    var encodings = {
-      "at" = 
-    };
-
-    console.log("Yeeeee");
-  </script>
-
-</body>
+<html lang="en">
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/addons/p5.sound.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <main></main>
+        <script src="sketch.js"></script>
+    </body>
 </html>
