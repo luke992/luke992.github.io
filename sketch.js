@@ -33,13 +33,18 @@ function setup() {
     taskP.position(wU / 2 + cnvX, 2 * hU + cnvY);
     taskP.size(5 * wU - 20, 6 * hU - 20);
     taskP.style("font-size:" + (1.4 * hU) / 3 + "px;");
+    taskP.addClass("taskP");
 
     instructions = document.createElement("ol");
+    instructions.style.fontSize = (1.4 * hU) / 4 + "px";
     taskP.child(instructions);
 
-    addInstruction("Hello");
-    addInstruction("Hack@CMU");
+    addInstruction("Hello abc bac basud iausd iasd iasud ");
+    addInstruction("Hack@CMU ■");
     addInstruction("ababab");
+    addInstruction(
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    );
 
     codeP = createP("▲■●★➤⧫");
     codeP.position(6.5 * wU + cnvX, 1.25 * hU + cnvY);
@@ -51,7 +56,7 @@ function setup() {
     responseP.position(6.5 * wU + cnvX, 3.75 * hU + cnvY);
     responseP.size(5 * wU - 20, 5 * hU - 20);
     responseP.style("font-size:" + (1.4 * hU) / 3 + "px;");
-    codeP.addClass("responseP");
+    responseP.addClass("responseP");
 
     buttonSetup();
 }
@@ -60,7 +65,7 @@ function draw() {
     background(255);
 
     stroke(0);
-    strokeWeight(hU / 9);
+    strokeWeight(hU / 15);
     fill(255);
 
     // task page
@@ -88,6 +93,8 @@ function draw() {
 
 function drawBackground() {
     // light
+    strokeWeight(hU / 9);
+
     push();
     noStroke();
     fill(255, 255, 0, 50);
