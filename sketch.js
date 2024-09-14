@@ -166,7 +166,8 @@ function addSymbolForce(symbol) {
     responseP.html(responseP.html() + symbol + "&#8203;");
 }
 
-function keyPressed() {
+keyPressed = function () {
+    console.log(key.charCodeAt(0));
     let keyIndex = -1;
     if (key == "Shift") {
         shiftHeld = true;
@@ -178,21 +179,20 @@ function keyPressed() {
         
     } if (key >= "A" && key <= "Z") {
         if (shiftHeld) {
-            // if (!justShifted)
+            //if (!justShifted)
                 addSymbol(key);
-            // justShifted = !justShifted;
+            //justShifted = !justShifted;
         }
     } else if ((key >= "0" && key <= "9")) {
-        // justNumbererd = !justNumbererd;
-        // if (!justNumbererd)
+        //justNumbererd = !justNumbererd;
+        //if (!justNumbererd)
             addSymbol(key);
     } else if (key.charCodeAt(0) == 32) {
         addSymbol(key);
-    } else if (key == "") {
+    }
+    if (key.charCodeAt(0) == 66 || key == "Backspace" || key == "") {
         deleteSymbol();
         console.log("Backspace pressed")
-    } else {
-        console.log(key);
     }
 }
 
