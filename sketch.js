@@ -9,6 +9,8 @@ let buttons;
 let delButton;
 let submitButton;
 
+let instructions;
+
 function setup() {
     if (windowHeight * ratio > windowWidth) {
         cnv = createCanvas(windowWidth, windowWidth / ratio);
@@ -32,6 +34,13 @@ function setup() {
     taskP.size(5 * wU - 20, 6 * hU - 20);
     taskP.style("font-size:" + (1.4 * hU) / 3 + "px;");
 
+    instructions = document.createElement("ol");
+    taskP.child(instructions);
+
+    addInstruction("Hello");
+    addInstruction("Hack@CMU");
+    addInstruction("ababab");
+
     codeP = createP("▲■●★➤⧫");
     codeP.position(6.5 * wU + cnvX, 1.25 * hU + cnvY);
     codeP.size(5 * wU - 20, 2 * hU - 20);
@@ -42,6 +51,7 @@ function setup() {
     responseP.position(6.5 * wU + cnvX, 3.75 * hU + cnvY);
     responseP.size(5 * wU - 20, 5 * hU - 20);
     responseP.style("font-size:" + (1.4 * hU) / 3 + "px;");
+    codeP.addClass("responseP");
 
     buttonSetup();
 }
@@ -66,14 +76,10 @@ function draw() {
 
     // symbol buttons
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
         rect(12.5 * wU, 2 * hU + i * 1.25 * hU, 1.25 * hU, 1.25 * hU);
         rect(13.75 * wU, 2 * hU + i * 1.25 * hU, 1.25 * hU, 1.25 * hU);
     }
-
-    // delete button
-    fill(255, 0, 0, 50);
-    rect(12.5 * wU, 5.75 * hU, 2.5 * hU, 1.25 * hU);
 
     // submit button
     fill(0, 255, 0, 50);
@@ -100,33 +106,52 @@ function drawBackground() {
 
 function buttonSetup() {
     buttons = [
-        new Button("▲ ", 1),
-        new Button("■ ", 1),
-        new Button("● ", 1),
-        new Button("★ ", 1),
-        new Button("➤ ", 1),
-        new Button("⧫ ", 1),
+        new Button("▲", 1),
+        new Button("■", 1),
+        new Button("●", 1),
+        new Button("★", 1),
+        new Button("➤", 1),
+        new Button("⧫", 1),
+        new Button("⧫", 1),
+        new Button("⧫", 1),
     ];
-
-    delButton = new Button("Delete", 2);
-    delButton.position(12.5 * wU + cnvX, 5.75 * hU + cnvY);
-    delButton.mousePressed(() => {
-        let str = responseP.html();
-        if (str) {
-            responseP.html(str.substring(0, str.length - 1));
-        }
-    });
 
     submitButton = new Button("Submit", 2);
     submitButton.position(12.5 * wU + cnvX, 7 * hU + cnvY);
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 8; i++) {
         buttons[i].position(
             wU * (12.5 + (i % 2) * 1.25) + cnvX,
             hU * (2 + 1.25 * Math.floor(i / 2)) + cnvY
         );
         buttons[i].mousePressed(() => {
-            responseP.html(responseP.html() + buttons[i].getSymbol());
+            addSymbol(buttons[i].getSymbol());
         });
+    }
+}
+
+function addSymbol(symbol) {
+    responseP.html(responseP.html() + symbol + "&#8203;");
+}
+
+function keyPressed() {
+    let keyIndex = -1;
+    if ((key >= "a" && key <= "z") || (key >= "1" && key <= "8")) {
+        addSymbol(key);
+    } else if (key.charCodeAt(0) == 66) {
+        deleteSymbol();
+    }
+}
+
+function addInstruction(instruction) {
+    var li = document.createElement("li");
+    instructions.appendChild(li);
+    li.innerHTML = instruction;
+}
+
+function deleteSymbol() {
+    let str = responseP.html();
+    if (str !== "") {
+        responseP.html(str.substring(0, str.length - 1));
     }
 }
