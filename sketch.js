@@ -12,6 +12,19 @@ let submitButton;
 let instructions;
 
 function setup() {
+    cursorOn = false;
+    cursorChar = "_"; //‸▮▋ ▊ ｜
+
+    setInterval(function () {
+        if (!cursorOn) addSymbolForce(cursorChar);
+        else deleteSymbolForce();
+        cursorOn = !cursorOn;
+    }, 600);
+
+    shiftHeld = false;
+    justShifted = false;
+    justNumbererd = false;
+
     if (windowHeight * ratio > windowWidth) {
         cnv = createCanvas(windowWidth, windowWidth / ratio);
     } else {
@@ -207,15 +220,57 @@ function buttonSetup() {
 }
 
 function addSymbol(symbol) {
-    let str = responseP.html(responseP.html() + symbol + "&#8203;");
+    var str = responseP.html();
+    if (str[str.length - 2] != cursorChar)
+        responseP.html(str + symbol + "&#8203;" + cursorChar + "&#8203;");
+    else
+        responseP.html(
+            str.substring(0, str.length - 2) +
+                symbol +
+                "&#8203;" +
+                cursorChar +
+                "&#8203;"
+        );
+    cursorOn = true;
 }
 
-function keyPressed() {
-    console.log(key);
-    if ((key >= "a" && key <= "z") || (key >= "0" && key <= "9")) {
+function addSymbolForce(symbol) {
+    responseP.html(responseP.html() + symbol + "&#8203;");
+}
+
+keyPressed = function () {
+    console.log(key.charCodeAt(0));
+    let keyIndex = -1;
+    if (key == "Shift") {
+        shiftHeld = true;
+        return;
+    }
+
+    if (key >= "a" && key <= "z") {
         addSymbol(key);
-    } else if (key.charCodeAt(0) == 66) {
+    }
+    if (key >= "A" && key <= "Z") {
+        if (shiftHeld) {
+            //if (!justShifted)
+            addSymbol(key);
+            //justShifted = !justShifted;
+        }
+    } else if (key >= "0" && key <= "9") {
+        //justNumbererd = !justNumbererd;
+        //if (!justNumbererd)
+        addSymbol(key);
+    } else if (key.charCodeAt(0) == 32) {
+        addSymbol(key);
+    }
+    if (key.charCodeAt(0) == 66 || key == "Backspace" || key == "") {
         deleteSymbol();
+        console.log("Backspace pressed");
+    }
+};
+
+function keyReleased() {
+    if (key == "Shift") {
+        shiftHeld = false;
     }
 }
 
@@ -225,9 +280,22 @@ function addInstruction(instruction) {
     li.innerHTML = instruction;
 }
 
-function deleteSymbol() {
+function deleteSymbolForce() {
     let str = responseP.html();
     if (str !== "") {
         responseP.html(str.substring(0, str.length - 2));
     }
+}
+
+function deleteSymbol() {
+    var str = responseP.html();
+    if (str[str.length - 2] != cursorChar)
+        responseP.html(
+            str.substring(0, str.length - 2) + cursorChar + "&#8203;"
+        );
+    else
+        responseP.html(
+            str.substring(0, str.length - 4) + cursorChar + "&#8203;"
+        );
+    cursorOn = true;
 }
