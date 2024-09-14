@@ -111,10 +111,9 @@ function buttonSetup() {
     delButton = new Button("Delete", 2);
     delButton.position(12.5 * wU + cnvX, 5.75 * hU + cnvY);
     delButton.mousePressed(() => {
-        if (responseP.html()) {
-            responseP.html(
-                responseP.html().substring(0, responseP.html().length - 1)
-            );
+        let str = responseP.html();
+        if (str) {
+            responseP.html(str.substring(0, str.length - 1));
         }
     });
 
