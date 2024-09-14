@@ -110,7 +110,13 @@ function buttonSetup() {
 
     delButton = new Button("Delete", 2);
     delButton.position(12.5 * wU + cnvX, 5.75 * hU + cnvY);
-    // del_button.style("background-color:red;!important");
+    delButton.mousePressed(() => {
+        if (responseP.html()) {
+            responseP.html(
+                responseP.html().substring(0, responseP.html().length - 1)
+            );
+        }
+    });
 
     submitButton = new Button("Submit", 2);
     submitButton.position(12.5 * wU + cnvX, 7 * hU + cnvY);
