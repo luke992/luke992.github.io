@@ -15,6 +15,7 @@ function setup() {
     let x = (windowWidth - width) / 2;
     let y = (windowHeight - height) / 2;
     cnv.position(x, y);
+    buttonSetup();
 }
 
 function draw() {
@@ -49,7 +50,7 @@ function draw() {
 
     // symbol buttons
     for (let i = 0; i < 3; i++) {
-        rect(12.5 * wU, 2 * hU + i * 1.25 * hU, 1.25 * hU, 1.25 * hU);
+        rect(12.5 * wU, 2 * hU + i * 1.25 * hU, 1.25 * wU, 1.25 * hU);
         rect(13.75 * wU, 2 * hU + i * 1.25 * hU, 1.25 * hU, 1.25 * hU);
     }
 

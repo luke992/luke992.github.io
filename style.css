@@ -7,3 +7,6 @@ body {
 canvas {
     display: block;
 }
+button:hover {
+    background-color: #b0edf5;
+}
