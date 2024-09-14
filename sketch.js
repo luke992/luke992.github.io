@@ -10,6 +10,10 @@ let delButton;
 let submitButton;
 
 function setup() {
+
+    shiftHeld = false;
+    justShifted = false;
+
     if (windowHeight * ratio > windowWidth) {
         cnv = createCanvas(windowWidth, windowWidth / ratio);
     } else {
@@ -38,7 +42,7 @@ function setup() {
     codeP.style("font-size:" + (1.4 * hU) / 3 + "px;");
     codeP.addClass("codeP");
 
-    responseP = createP("");
+    responseP = createP("SDFGHJKDFGHJKUQ EYVKIQEVFKUQE BFILQEUBF");
     responseP.position(6.5 * wU + cnvX, 3.75 * hU + cnvY);
     responseP.size(5 * wU - 20, 5 * hU - 20);
     responseP.style("font-size:" + (1.4 * hU) / 3 + "px;");
@@ -113,7 +117,8 @@ function buttonSetup() {
     delButton.mousePressed(() => {
         let str = responseP.html();
         if (str) {
-            responseP.html(str.substring(0, str.length - 1));
+            var charsToDelete = str[str.length - 1] == " " ? 2 : 1;
+            responseP.html(str.substring(0, str.length - charsToDelete));
         }
     });
 
@@ -130,3 +135,70 @@ function buttonSetup() {
         });
     }
 }
+
+function keyPressed() { 
+    var s = ""+key;
+
+    console.log(key);
+
+    if (key == "Backspace") {
+        let str = responseP.html();
+        if (str) {
+            var charsToDelete = str[str.length - 1] == " " ? 2 : 1;
+            responseP.html(str.substring(0, str.length - charsToDelete));
+        }
+    }
+
+    if (key == "Shift") {
+        shiftHeld = true;
+    }
+
+    if (s.length > 1) return;
+    if (!isAlphaNumeric(s)) return;
+    if (!isLetter(s)) return;
+
+    if (shiftHeld) {
+        justShifted = !justShifted;
+        if (justShifted) return;
+    }
+
+    let str = responseP.html();
+    if (!shiftHeld)
+        s = s.toLowerCase();
+
+
+
+    responseP.html(responseP.html() + s);
+    // responseP.html(str.substring(0, str.length - 1));
+  } 
+
+  function keyReleased() {
+    if (key == "Shift") {
+        shiftHeld = false;
+    }
+
+  }
+
+  function isAlphaNumeric(str) {
+    var code, i, len;
+  
+    for (i = 0, len = str.length; i < len; i++) {
+      code = str.charCodeAt(i);
+      if (!(code > 47 && code < 58) && // numeric (0-9)
+          !(code > 64 && code < 91) && // upper alpha (A-Z)
+          !(code > 96 && code < 123)) { // lower alpha (a-z)
+        return false;
+      }
+    }
+    return true;
+  };
+
+  function isLetter(s) {
+    var chars = "QWERTYUIOPASDFGHJKLZXCVBNM";
+    for (var i = 0; i < 26; i++) {
+        if (s == chars[i])
+            return true;
+    }
+    return false;
+  }
+
