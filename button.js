@@ -18,6 +18,10 @@ class Button {
         return this.symbol;
     }
 
+    setColor(color) {
+        this.b.style("background-color:" + color + ";");
+    }
+
     setStyle() {
         this.b.style(
             "width:" +

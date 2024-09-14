@@ -65,7 +65,7 @@ function draw() {
     background(255);
 
     stroke(0);
-    strokeWeight(hU / 15);
+    strokeWeight(hU / 9);
     fill(255);
 
     // task page
@@ -93,8 +93,6 @@ function draw() {
 
 function drawBackground() {
     // light
-    strokeWeight(hU / 9);
-
     push();
     noStroke();
     fill(255, 255, 0, 50);
@@ -109,6 +107,77 @@ function drawBackground() {
     rect(6 * wU, 0, 6 * wU, hU / 2);
 
     // hands
+    translate(6 * wU, 0);
+    drawLeftHand();
+    translate(6 * wU, 0);
+    drawRightHand();
+    translate(-12 * wU, 0);
+}
+
+function drawRightHand() {
+    beginShape();
+    vertex(0, height);
+    bezierVertex(
+        -0.2 * wU,
+        height - 0.7 * hU,
+        -0.3 * wU,
+        height - 1.3 * hU,
+        -0.5 * wU,
+        height - 1.3 * hU
+    );
+    vertex(-0.5 * wU, height - 1.3 * hU);
+    bezierVertex(
+        -0.8 * wU,
+        height - 1.3 * hU - wU,
+        -(0.5 * wU + wU),
+        height - 1.3 * hU,
+        -(0.5 * wU + 0.4 * hU),
+        height - 0.9 * hU
+    );
+    vertex(-(0.5 * wU + 0.4 * hU), height - 0.9 * hU);
+    bezierVertex(
+        -(0.3 * wU + 0.4 * wU),
+        height - 0.9 * hU,
+        -(0.1 * wU + 0.4 * wU),
+        height - 0.4 * hU,
+        -0.4 * wU,
+        height + 0.4 * hU
+    );
+
+    endShape();
+}
+
+function drawLeftHand() {
+    beginShape();
+    vertex(0, height);
+    bezierVertex(
+        0.2 * wU,
+        height - 0.7 * hU,
+        0.3 * wU,
+        height - 1.3 * hU,
+        0.5 * wU,
+        height - 1.3 * hU
+    );
+    vertex(0.5 * wU, height - 1.3 * hU);
+    bezierVertex(
+        0.8 * wU,
+        height - 1.3 * hU - wU,
+        0.5 * wU + wU,
+        height - 1.3 * hU,
+        0.5 * wU + 0.4 * hU,
+        height - 0.9 * hU
+    );
+    vertex(0.5 * wU + 0.4 * hU, height - 0.9 * hU);
+    bezierVertex(
+        0.3 * wU + 0.4 * wU,
+        height - 0.9 * hU,
+        0.1 * wU + 0.4 * wU,
+        height - 0.4 * hU,
+        0.4 * wU,
+        height + 0.4 * hU
+    );
+    vertex(0.4 * wU, height + 0.4 * hU);
+    endShape();
 }
 
 function buttonSetup() {
@@ -125,7 +194,7 @@ function buttonSetup() {
 
     submitButton = new Button("Submit", 2);
     submitButton.position(12.5 * wU + cnvX, 7 * hU + cnvY);
-
+    submitButton.setColor("rgb(0,255,0)");
     for (let i = 0; i < 8; i++) {
         buttons[i].position(
             wU * (12.5 + (i % 2) * 1.25) + cnvX,
@@ -138,12 +207,12 @@ function buttonSetup() {
 }
 
 function addSymbol(symbol) {
-    responseP.html(responseP.html() + symbol + "&#8203;");
+    let str = responseP.html(responseP.html() + symbol + "&#8203;");
 }
 
 function keyPressed() {
-    let keyIndex = -1;
-    if ((key >= "a" && key <= "z") || (key >= "1" && key <= "8")) {
+    console.log(key);
+    if ((key >= "a" && key <= "z") || (key >= "0" && key <= "9")) {
         addSymbol(key);
     } else if (key.charCodeAt(0) == 66) {
         deleteSymbol();
