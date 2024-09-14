@@ -10,3 +10,9 @@ canvas {
 button:hover {
     background-color: #b0edf5;
 }
+
+p {
+    padding: 10px;
+    margin: 0;
+    overflow: scroll;
+}
