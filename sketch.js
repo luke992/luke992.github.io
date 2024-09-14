@@ -1,11 +1,13 @@
 let ratio = 16 / 9;
-let wU;
-let hU;
+let wU, hU;
 let cnv;
-let cnvX;
-let cnvY;
+let cnvX, cnvY;
 
-let taskP;
+let taskP, codeP, responseP;
+
+let buttons;
+let delButton;
+let submitButton;
 
 function setup() {
     if (windowHeight * ratio > windowWidth) {
@@ -20,34 +22,28 @@ function setup() {
     let x = (windowWidth - width) / 2;
     let y = (windowHeight - height) / 2;
     cnv.position(x, y);
-    buttonSetup();
+
     cnvX = (windowWidth - width) / 2;
     cnvY = (windowHeight - height) / 2;
     cnv.position(cnvX, cnvY);
 
-    taskP = createP(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    );
+    taskP = createP("Task 1");
     taskP.position(wU / 2 + cnvX, 2 * hU + cnvY);
-    taskP.style(
-        "width: " + (5 * wU - 20) + "px; height: " + (6 * hU - 20) + "px;"
-    );
+    taskP.size(5 * wU - 20, 6 * hU - 20);
+    taskP.style("font-size:" + (1.4 * hU) / 3 + "px;");
 
-    codeP = createP(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    );
+    codeP = createP("▲■●★➤⧫");
     codeP.position(6.5 * wU + cnvX, 1.25 * hU + cnvY);
-    codeP.style(
-        "width: " + (5 * wU - 20) + "px; height: " + (2 * hU - 20) + "px;"
-    );
+    codeP.size(5 * wU - 20, 2 * hU - 20);
+    codeP.style("font-size:" + (1.4 * hU) / 3 + "px;");
+    codeP.addClass("codeP");
 
-    responseP = createP(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    );
+    responseP = createP("");
     responseP.position(6.5 * wU + cnvX, 3.75 * hU + cnvY);
-    responseP.style(
-        "width: " + (5 * wU - 20) + "px; height: " + (5 * hU - 20) + "px;"
-    );
+    responseP.size(5 * wU - 20, 5 * hU - 20);
+    responseP.style("font-size:" + (1.4 * hU) / 3 + "px;");
+
+    buttonSetup();
 }
 
 function draw() {
@@ -69,8 +65,9 @@ function draw() {
     drawBackground();
 
     // symbol buttons
+
     for (let i = 0; i < 3; i++) {
-        rect(12.5 * wU, 2 * hU + i * 1.25 * hU, 1.25 * wU, 1.25 * hU);
+        rect(12.5 * wU, 2 * hU + i * 1.25 * hU, 1.25 * hU, 1.25 * hU);
         rect(13.75 * wU, 2 * hU + i * 1.25 * hU, 1.25 * hU, 1.25 * hU);
     }
 
@@ -99,4 +96,32 @@ function drawBackground() {
     rect(6 * wU, 0, 6 * wU, hU / 2);
 
     // hands
+}
+
+function buttonSetup() {
+    buttons = [
+        new Button("▲ ", 1),
+        new Button("■ ", 1),
+        new Button("● ", 1),
+        new Button("★ ", 1),
+        new Button("➤ ", 1),
+        new Button("⧫ ", 1),
+    ];
+
+    delButton = new Button("Delete", 2);
+    delButton.position(12.5 * wU + cnvX, 5.75 * hU + cnvY);
+    // del_button.style("background-color:red;!important");
+
+    submitButton = new Button("Submit", 2);
+    submitButton.position(12.5 * wU + cnvX, 7 * hU + cnvY);
+
+    for (let i = 0; i < 6; i++) {
+        buttons[i].position(
+            wU * (12.5 + (i % 2) * 1.25) + cnvX,
+            hU * (2 + 1.25 * Math.floor(i / 2)) + cnvY
+        );
+        buttons[i].mousePressed(() => {
+            responseP.html(responseP.html() + buttons[i].getSymbol());
+        });
+    }
 }
